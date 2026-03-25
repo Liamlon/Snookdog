@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snookdog</title>
+
+<style>
+body {
+  background: #0b3d2e;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+  margin: 0;
+  overflow: hidden; /* 🔥 אין גלילה */
+}
+
+.container {
+  height: 100vh; /* 🔥 תופס את כל המסך */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; /* מפזר יפה */
+  align-items: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+/* שחקנים */
+.players {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.player-box {
+  padding: 8px 16px;
+  font-size: 16px;
+  border: 2px solid white;
+  border-radius: 10px;
+}
+
+.active {
+  background: gold;
+  color: black;
+}
+
+/* ניקוד */
+.scores {
+  font-size: 70px;
+  font-weight: bold;
+}
+
+/* כדורים */
+.balls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.ball {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* צבעים */
+.red { background: red; }
+.black { background: black; }
+.pink { background: #ff4fa3; }
+.blue { background: #0066ff; }
+.yellow { background: #ffd900; color: black; }
+.brown { background: #8b4513; }
+.green { background: #00a651; }
+
+/* Foul */
+.foul {
+  padding: 10px 20px;
+  font-size: 14px;
+  background: #e0e0e0;
+  color: black;
+  border-radius: 10px;
+}
+
+/* צד */
+.side-buttons {
+  position: fixed;
+  right: 10px;
+  top: 50%;
+}
+
+.side-buttons button {
+  display: block;
+  margin: 5px;
+}
+
+/* 🔥 טאבלט לרוחב */
+@media (orientation: landscape) {
+
+  .scores {
+    font-size: 100px;
+  }
+
+  .ball {
+    width: 70px;
+    height: 70px;
+    font-size: 20px;
+  }
+
+  .balls {
+    gap: 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎱 ScoreBoard</h1>
+
+<div class="players">
+  <div id="p1" class="player-box active" onclick="setPlayer(1)">
+    Liam
+  </div>
+  <div id="p2" class="player-box" onclick="setPlayer(2)">
+    Sharabani
+  </div>
+</div>
+
+<div class="scores">
+  <span id="score1">0</span> - <span id="score2">0</span>
+</div>
+
+<div class="balls">
+  <div class="ball red" onclick="addPoints(1)">1</div>
+  <div class="ball black" onclick="addPoints(7)">7</div>
+  <div class="ball pink" onclick="addPoints(6)">6</div>
+  <div class="ball blue" onclick="addPoints(5)">5</div>
+
+  <div class="row">
+    <div class="ball green" onclick="addPoints(3)">3</div>
+    <div class="ball brown" onclick="addPoints(4)">4</div>
+    <div class="ball yellow" onclick="addPoints(2)">2</div>
+  </div>
+</div>
+
+<button class="foul" onclick="foul()">FOUL</button>
+
+</div>
+
+<div class="side-buttons">
+  <button onclick="undo()">Undo</button>
+  <button onclick="resetGame()">Reset</button>
+</div>
+
+<script>
+let score1 = localStorage.getItem("score1") ? parseInt(localStorage.getItem("score1")) : 0;
+let score2 = localStorage.getItem("score2") ? parseInt(localStorage.getItem("score2")) : 0;
+let currentPlayer = localStorage.getItem("player") ? parseInt(localStorage.getItem("player")) : 1;
+
+let history = [];
+
+updateUI();
+
+function save() {
+  localStorage.setItem("score1", score1);
+  localStorage.setItem("score2", score2);
+  localStorage.setItem("player", currentPlayer);
+}
+
+function updateUI() {
+  document.getElementById("score1").innerText = score1;
+  document.getElementById("score2").innerText = score2;
+
+  document.getElementById("p1").classList.remove("active");
+  document.getElementById("p2").classList.remove("active");
+  document.getElementById("p" + currentPlayer).classList.add("active");
+}
+
+function saveHistory() {
+  history.push({score1, score2});
+}
+
+function setPlayer(player) {
+  currentPlayer = player;
+  save();
+  updateUI();
+}
+
+function addPoints(points) {
+  saveHistory();
+  if (currentPlayer === 1) score1 += points;
+  else score2 += points;
+  save();
+  updateUI();
+}
+
+function foul() {
+  saveHistory();
+  if (currentPlayer === 1) score2 += 4;
+  else score1 += 4;
+  save();
+  updateUI();
+}
+
+function undo() {
+  if (history.length === 0) return;
+  const last = history.pop();
+  score1 = last.score1;
+  score2 = last.score2;
+  save();
+  updateUI();
+}
+
+function resetGame() {
+  score1 = 0;
+  score2 = 0;
+  history = [];
+  save();
+  updateUI();
+}
+</script>
+
+</body>
+</html>
