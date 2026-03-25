@@ -3,6 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 🔥 האייקון -->
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+
+<!-- 🔥 להפוך לאפליקציה -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Snookdog">
+
 <title>Snookdog</title>
 
 <style>
@@ -12,14 +22,14 @@ body {
   font-family: Arial;
   text-align: center;
   margin: 0;
-  overflow: hidden; /* 🔥 אין גלילה */
+  overflow: hidden;
 }
 
 .container {
-  height: 100vh; /* 🔥 תופס את כל המסך */
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly; /* מפזר יפה */
+  justify-content: space-evenly;
   align-items: center;
 }
 
@@ -28,7 +38,6 @@ h1 {
   margin: 0;
 }
 
-/* שחקנים */
 .players {
   width: 100%;
   display: flex;
@@ -47,13 +56,11 @@ h1 {
   color: black;
 }
 
-/* ניקוד */
 .scores {
   font-size: 70px;
   font-weight: bold;
 }
 
-/* כדורים */
 .balls {
   display: flex;
   flex-direction: column;
@@ -77,7 +84,6 @@ h1 {
   font-weight: bold;
 }
 
-/* צבעים */
 .red { background: red; }
 .black { background: black; }
 .pink { background: #ff4fa3; }
@@ -86,7 +92,6 @@ h1 {
 .brown { background: #8b4513; }
 .green { background: #00a651; }
 
-/* Foul */
 .foul {
   padding: 10px 20px;
   font-size: 14px;
@@ -95,7 +100,6 @@ h1 {
   border-radius: 10px;
 }
 
-/* צד */
 .side-buttons {
   position: fixed;
   right: 10px;
@@ -107,9 +111,7 @@ h1 {
   margin: 5px;
 }
 
-/* 🔥 טאבלט לרוחב */
 @media (orientation: landscape) {
-
   .scores {
     font-size: 100px;
   }
