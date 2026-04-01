@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="icon" href="icon.png">
@@ -21,21 +21,24 @@ body {
   font-family: 'Poppins', sans-serif;
   text-align: center;
   margin: 0;
-  overflow: hidden;
+  padding: 0;
+  overflow: hidden; /* מונע גלילה מיותרת */
+  touch-action: manipulation; /* מונע זום בטעות כשלוחצים מהר */
 }
 
 .container {
   height: 100vh;
+  height: 100dvh; /* מתאים את עצמו גם כשיש שורת כתובת בדפדפן בנייד */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; 
+  justify-content: space-evenly; /* מפזר את הרווחים שווה בשווה כדי שכלום לא ייחתך */
   align-items: center;
-  padding-top: 15px;
-  gap: 15px; 
+  padding: 10px 0;
+  box-sizing: border-box;
 }
 
 h1 {
-  font-size: 22px;
+  font-size: 20px;
   margin: 0;
   font-weight: 800;
   letter-spacing: 1px;
@@ -43,14 +46,13 @@ h1 {
 }
 
 .timer {
-  font-size: 16px;
+  font-size: 14px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  padding: 6px 16px;
+  padding: 4px 12px;
   border-radius: 30px;
   font-weight: 600;
-  margin-top: -10px; 
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -58,26 +60,25 @@ h1 {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  margin-top: 5px;
 }
 
 .player-col {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 45%;
+  width: 40%;
 }
 
 .player-box {
-  padding: 10px 0;
+  padding: 8px 0;
   width: 100%;
-  font-size: 18px;
+  font-size: clamp(14px, 3vw, 18px); /* גודל דינמי לפי המסך */
   font-weight: 600;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -91,16 +92,18 @@ h1 {
 }
 
 .score-display {
-  font-size: 160px; 
+  /* הפקודה clamp מוודאת שהמספר יהיה ענק כשיש מקום, אבל יקטן אם המסך קטן כדי לא לחתוך! */
+  font-size: clamp(80px, 16vh, 160px); 
   font-weight: 800;
-  margin: -5px 0; 
+  margin: 0; 
+  line-height: 1;
   text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .log-container {
-  font-size: 14px;
+  font-size: 12px;
   color: #88d4b4;
-  min-height: 60px; 
+  min-height: 40px; 
   font-weight: 600;
 }
 
@@ -108,24 +111,24 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
-  margin-top: -110px; 
+  gap: clamp(5px, 1.5vh, 12px); /* רווח גמיש בין הכדורים */
   z-index: 10;
 }
 
 .row {
   display: flex;
-  gap: 15px;
+  gap: clamp(5px, 1.5vh, 12px);
 }
 
 .ball {
-  width: 65px;
-  height: 65px;
+  /* הכדור מתאים את עצמו גם לטלפון וגם לאייפד */
+  width: clamp(45px, 8vh, 65px);
+  height: clamp(45px, 8vh, 65px);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 22px;
+  font-size: clamp(16px, 3vh, 22px);
   font-weight: 800;
   cursor: pointer;
   box-shadow: inset -5px -5px 10px rgba(0,0,0,0.5), 0 5px 10px rgba(0,0,0,0.4); 
@@ -146,7 +149,7 @@ h1 {
 .green { background: radial-gradient(circle at 30% 30%, #2ecc71, #27ae60); }
 
 .foul {
-  padding: 12px 35px; 
+  padding: clamp(8px, 2vh, 12px) 35px; 
   font-size: 16px; 
   background: linear-gradient(135deg, #ff7b7b, #ff4747); 
   color: white;
@@ -166,7 +169,7 @@ h1 {
 .side-buttons {
   position: fixed;
   right: 15px;
-  top: 70%; /* <--- כאן הורדתי את הכפתורים למטה כדי שלא יסתירו את הניקוד */
+  top: 50%; 
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -177,7 +180,7 @@ h1 {
 .side-buttons button {
   display: block;
   cursor: pointer;
-  padding: 10px 15px;
+  padding: 8px 12px;
   border-radius: 12px;
   border: none;
   font-weight: 600;
@@ -185,21 +188,22 @@ h1 {
   color: white;
   backdrop-filter: blur(5px);
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  font-size: 12px;
 }
 
 .side-buttons .finish-btn {
   background: linear-gradient(135deg, #f1c40f, #f39c12); 
   color: black; 
   font-weight: 800;
-  margin-top: 10px; 
+  margin-top: 5px; 
 }
 
 .frames-side {
   margin-top: 5px;
   background: rgba(0, 0, 0, 0.3); 
-  padding: 10px 15px;
+  padding: 8px 12px;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   color: gold;
   text-align: left;
@@ -207,12 +211,17 @@ h1 {
   border: 1px solid rgba(255,215,0,0.2);
 }
 
+/* התאמות נוספות ספציפיות לאייפד ולרוחב */
 @media (orientation: landscape) {
-  .score-display { font-size: 190px; } 
-  .ball { width: 75px; height: 75px; font-size: 24px; }
-  .balls { gap: 15px; margin-top: -140px; }
-  .container { gap: 10px; }
-  .side-buttons { top: 50%; } /* במסך שוכב הם יישארו באמצע כי יש מקום */
+  .container {
+    padding: 5px 0;
+  }
+  .balls {
+    gap: 8px; /* מצופף קצת את הכדורים לרוחב כדי שלא יירדו למטה */
+  }
+  .row {
+    gap: 8px;
+  }
 }
 </style>
 </head>
