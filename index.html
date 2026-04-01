@@ -22,16 +22,16 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* מונע גלילה מיותרת */
-  touch-action: manipulation; /* מונע זום בטעות כשלוחצים מהר */
+  overflow: hidden; 
+  touch-action: manipulation; 
 }
 
 .container {
   height: 100vh;
-  height: 100dvh; /* מתאים את עצמו גם כשיש שורת כתובת בדפדפן בנייד */
+  height: 100dvh; 
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly; /* מפזר את הרווחים שווה בשווה כדי שכלום לא ייחתך */
+  justify-content: space-evenly; 
   align-items: center;
   padding: 10px 0;
   box-sizing: border-box;
@@ -72,7 +72,7 @@ h1 {
 .player-box {
   padding: 8px 0;
   width: 100%;
-  font-size: clamp(14px, 3vw, 18px); /* גודל דינמי לפי המסך */
+  font-size: clamp(14px, 3vw, 18px); 
   font-weight: 600;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
@@ -92,7 +92,6 @@ h1 {
 }
 
 .score-display {
-  /* הפקודה clamp מוודאת שהמספר יהיה ענק כשיש מקום, אבל יקטן אם המסך קטן כדי לא לחתוך! */
   font-size: clamp(80px, 16vh, 160px); 
   font-weight: 800;
   margin: 0; 
@@ -111,7 +110,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(5px, 1.5vh, 12px); /* רווח גמיש בין הכדורים */
+  gap: clamp(5px, 1.5vh, 12px); 
   z-index: 10;
 }
 
@@ -121,7 +120,6 @@ h1 {
 }
 
 .ball {
-  /* הכדור מתאים את עצמו גם לטלפון וגם לאייפד */
   width: clamp(45px, 8vh, 65px);
   height: clamp(45px, 8vh, 65px);
   border-radius: 50%;
@@ -211,16 +209,55 @@ h1 {
   border: 1px solid rgba(255,215,0,0.2);
 }
 
-/* התאמות נוספות ספציפיות לאייפד ולרוחב */
-@media (orientation: landscape) {
-  .container {
-    padding: 5px 0;
+/* =========================================
+   חוק מיוחד לאייפדים ומסכים גדולים לרוחב בלבד!
+   לא ישפיע על טלפונים בכלל.
+   ========================================= */
+@media (min-width: 768px) and (min-height: 600px) and (orientation: landscape) {
+  .score-display { 
+    font-size: clamp(180px, 30vh, 350px); /* ניקוד ענק! */
   }
-  .balls {
-    gap: 8px; /* מצופף קצת את הכדורים לרוחב כדי שלא יירדו למטה */
+  .ball { 
+    width: 100px; 
+    height: 100px; 
+    font-size: 32px; 
   }
-  .row {
-    gap: 8px;
+  .balls { 
+    gap: 18px; 
+    margin-top: -100px; /* מתאים את המיקום למספרים הגדולים */
+  }
+  .row { 
+    gap: 18px; 
+  }
+  .foul { 
+    padding: 18px 60px; 
+    font-size: 24px; 
+  }
+  .player-box { 
+    font-size: 28px; 
+    padding: 15px 0; 
+  }
+  .side-buttons button { 
+    padding: 16px 30px; 
+    font-size: 20px; 
+  }
+  .side-buttons .finish-btn {
+    margin-top: 15px;
+  }
+  .frames-side { 
+    padding: 16px 30px; 
+    font-size: 20px; 
+  }
+  h1 { 
+    font-size: 32px; 
+  }
+  .timer { 
+    font-size: 22px; 
+    padding: 10px 30px;
+  }
+  .log-container {
+    font-size: 18px;
+    min-height: 50px;
   }
 }
 </style>
