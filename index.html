@@ -90,7 +90,6 @@ h1 {
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
 }
 
-/* הניקוד הוגדל משמעותית */
 .score-display {
   font-size: 160px; 
   font-weight: 800;
@@ -105,7 +104,6 @@ h1 {
   font-weight: 600;
 }
 
-/* הכדורים עלו למעלה בין המספרים */
 .balls {
   display: flex;
   flex-direction: column;
@@ -147,11 +145,10 @@ h1 {
 .brown { background: radial-gradient(circle at 30% 30%, #a0522d, #5c3a21); }
 .green { background: radial-gradient(circle at 30% 30%, #2ecc71, #27ae60); }
 
-/* כפתור פאול באדום בהיר ובולט */
 .foul {
   padding: 12px 35px; 
   font-size: 16px; 
-  background: linear-gradient(135deg, #ff7b7b, #ff4747); /* אדום בהיר יותר */
+  background: linear-gradient(135deg, #ff7b7b, #ff4747); 
   color: white;
   border-radius: 25px;
   cursor: pointer;
@@ -169,7 +166,7 @@ h1 {
 .side-buttons {
   position: fixed;
   right: 15px;
-  top: 50%;
+  top: 70%; /* <--- כאן הורדתי את הכפתורים למטה כדי שלא יסתירו את הניקוד */
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -211,10 +208,11 @@ h1 {
 }
 
 @media (orientation: landscape) {
-  .score-display { font-size: 190px; } /* עוד יותר גדול לרוחב */
+  .score-display { font-size: 190px; } 
   .ball { width: 75px; height: 75px; font-size: 24px; }
   .balls { gap: 15px; margin-top: -140px; }
   .container { gap: 10px; }
+  .side-buttons { top: 50%; } /* במסך שוכב הם יישארו באמצע כי יש מקום */
 }
 </style>
 </head>
