@@ -214,18 +214,16 @@ h1 {
 }
 
 /* =========================================
-   התיקון החדש: מסדר את האייפד לרוחב בדיוק לפי התמונה!
+   חוקים לאייפד לרוחב (מסכים גדולים)
    ========================================= */
 @media (min-width: 768px) and (orientation: landscape) {
   .container {
-    justify-content: center; /* ממקרז הכל באמצע */
+    justify-content: center; 
   }
   
-  /* מוציא את הכותרת והשעון מחוץ לסדר הרגיל למעלה */
   h1 { position: absolute; top: 20px; font-size: 28px; }
   .timer { position: absolute; top: 60px; font-size: 18px; padding: 6px 20px; }
   
-  /* זורק את השחקנים והניקוד לצדדים (ימין ושמאל) */
   .players {
     position: absolute;
     top: 25%;
@@ -234,11 +232,11 @@ h1 {
     padding: 0 8%;
     box-sizing: border-box;
     justify-content: space-between;
-    pointer-events: none; /* כדי שאפשר יהיה ללחוץ על הכדורים באמצע */
+    pointer-events: none; 
   }
   
   .player-col {
-    pointer-events: auto; /* מחזיר את הלחיצה לשחקנים עצמם */
+    pointer-events: auto; 
     width: 30%;
   }
   
@@ -248,7 +246,7 @@ h1 {
   }
   
   .score-display {
-    font-size: 220px; /* עכשיו הניקוד יכול להיות מפלצתי! */
+    font-size: 220px; 
     margin-top: -10px;
   }
   
@@ -256,7 +254,6 @@ h1 {
     font-size: 16px;
   }
 
-  /* מגדיל את הכדורים וממקם אותם יפה באמצע */
   .balls {
     margin-top: 40px; 
     gap: 15px;
@@ -269,7 +266,6 @@ h1 {
     font-size: 32px;
   }
 
-  /* מוריד את כפתור הפאול למטה לאמצע */
   .foul {
     position: absolute;
     bottom: 30px;
@@ -277,9 +273,12 @@ h1 {
     font-size: 22px;
   }
 
-  /* מסדר את התפריט בצד ימין */
+  /* כאן התיקון: מוריד את התפריט למטה! */
   .side-buttons {
-    right: 20px;
+    right: 25px;
+    top: auto;        /* מבטל את המיקום באמצע */
+    bottom: 30px;     /* מצמיד למטה */
+    transform: none;  /* מבטל את המשיכה למעלה */
   }
   
   .side-buttons button {
