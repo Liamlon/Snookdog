@@ -4,22 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- 🔥 האייקון -->
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="icon" href="icon.png">
-
-<!-- 🔥 להפוך לאפליקציה -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Snookdog">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
 <title>Snookdog</title>
 
 <style>
 body {
-  background: #0b3d2e;
+  background: radial-gradient(circle at top, #146b46, #062b1d);
   color: white;
-  font-family: Arial;
+  font-family: 'Poppins', sans-serif;
   text-align: center;
   margin: 0;
   overflow: hidden;
@@ -29,102 +28,193 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start; 
   align-items: center;
+  padding-top: 15px;
+  gap: 15px; 
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 22px;
   margin: 0;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #e0e0e0;
+}
+
+.timer {
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-weight: 600;
+  margin-top: -10px; 
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .players {
   width: 100%;
   display: flex;
   justify-content: space-around;
+  margin-top: 5px;
+}
+
+.player-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;
 }
 
 .player-box {
-  padding: 8px 16px;
-  font-size: 16px;
-  border: 2px solid white;
-  border-radius: 10px;
+  padding: 10px 0;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .active {
-  background: gold;
-  color: black;
+  background: rgba(255, 215, 0, 0.2);
+  border: 1px solid gold;
+  color: gold;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
 }
 
-.scores {
-  font-size: 70px;
-  font-weight: bold;
+/* הניקוד הוגדל משמעותית */
+.score-display {
+  font-size: 160px; 
+  font-weight: 800;
+  margin: -5px 0; 
+  text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+.log-container {
+  font-size: 14px;
+  color: #88d4b4;
+  min-height: 60px; 
+  font-weight: 600;
+}
+
+/* הכדורים עלו למעלה בין המספרים */
 .balls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: -110px; 
+  z-index: 10;
+}
+
+.row {
+  display: flex;
+  gap: 15px;
+}
+
+.ball {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: inset -5px -5px 10px rgba(0,0,0,0.5), 0 5px 10px rgba(0,0,0,0.4); 
+  color: white;
+  transition: transform 0.1s ease;
+}
+
+.ball:active {
+  transform: scale(0.9);
+}
+
+.red { background: radial-gradient(circle at 30% 30%, #ff6b6b, #c0392b); }
+.black { background: radial-gradient(circle at 30% 30%, #555, #111); }
+.pink { background: radial-gradient(circle at 30% 30%, #ff9ecd, #d1005a); }
+.blue { background: radial-gradient(circle at 30% 30%, #4a90e2, #003399); }
+.yellow { background: radial-gradient(circle at 30% 30%, #f1c40f, #f39c12); color: black; text-shadow: none; }
+.brown { background: radial-gradient(circle at 30% 30%, #a0522d, #5c3a21); }
+.green { background: radial-gradient(circle at 30% 30%, #2ecc71, #27ae60); }
+
+/* כפתור פאול באדום בהיר ובולט */
+.foul {
+  padding: 12px 35px; 
+  font-size: 16px; 
+  background: linear-gradient(135deg, #ff7b7b, #ff4747); /* אדום בהיר יותר */
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 800;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease;
+  z-index: 10;
+}
+
+.foul:active {
+  transform: scale(0.95);
+}
+
+.side-buttons {
+  position: fixed;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
 }
 
-.row {
-  display: flex;
-  gap: 10px;
-}
-
-.ball {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.red { background: red; }
-.black { background: black; }
-.pink { background: #ff4fa3; }
-.blue { background: #0066ff; }
-.yellow { background: #ffd900; color: black; }
-.brown { background: #8b4513; }
-.green { background: #00a651; }
-
-.foul {
-  padding: 10px 20px;
-  font-size: 14px;
-  background: #e0e0e0;
-  color: black;
-  border-radius: 10px;
-}
-
-.side-buttons {
-  position: fixed;
-  right: 10px;
-  top: 50%;
-}
-
 .side-buttons button {
   display: block;
-  margin: 5px;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.side-buttons .finish-btn {
+  background: linear-gradient(135deg, #f1c40f, #f39c12); 
+  color: black; 
+  font-weight: 800;
+  margin-top: 10px; 
+}
+
+.frames-side {
+  margin-top: 5px;
+  background: rgba(0, 0, 0, 0.3); 
+  padding: 10px 15px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: gold;
+  text-align: left;
+  line-height: 1.6;
+  border: 1px solid rgba(255,215,0,0.2);
 }
 
 @media (orientation: landscape) {
-  .scores {
-    font-size: 100px;
-  }
-
-  .ball {
-    width: 70px;
-    height: 70px;
-    font-size: 20px;
-  }
-
-  .balls {
-    gap: 12px;
-  }
+  .score-display { font-size: 190px; } /* עוד יותר גדול לרוחב */
+  .ball { width: 75px; height: 75px; font-size: 24px; }
+  .balls { gap: 15px; margin-top: -140px; }
+  .container { gap: 10px; }
 }
 </style>
 </head>
@@ -133,19 +223,20 @@ h1 {
 
 <div class="container">
 
-<h1>🎱 ScoreBoard</h1>
+<h1>🎱 SCOREBOARD</h1>
+<div id="timerDisplay" class="timer">00:00</div>
 
 <div class="players">
-  <div id="p1" class="player-box active" onclick="setPlayer(1)">
-    Liam
+  <div class="player-col">
+    <div id="p1" class="player-box active" onclick="setPlayer(1)">Liam</div>
+    <div id="score1" class="score-display">0</div>
+    <div id="log1" class="log-container"></div>
   </div>
-  <div id="p2" class="player-box" onclick="setPlayer(2)">
-    Sharabani
+  <div class="player-col">
+    <div id="p2" class="player-box" onclick="setPlayer(2)">Sharabani</div>
+    <div id="score2" class="score-display">0</div>
+    <div id="log2" class="log-container"></div>
   </div>
-</div>
-
-<div class="scores">
-  <span id="score1">0</span> - <span id="score2">0</span>
 </div>
 
 <div class="balls">
@@ -168,34 +259,141 @@ h1 {
 <div class="side-buttons">
   <button onclick="undo()">Undo</button>
   <button onclick="resetGame()">Reset</button>
+  <button class="finish-btn" onclick="finishFrame()">Finish</button>
+  
+  <div class="frames-side">
+    <div id="side-f1">Liam: 0</div>
+    <div id="side-f2">Sharabani: 0</div>
+  </div>
 </div>
 
 <script>
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playSound(type) {
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+  
+  if (type === 'hit') {
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
+    gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.1);
+    if (navigator.vibrate) navigator.vibrate(50); 
+    
+  } else if (type === 'foul') {
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.3);
+    if (navigator.vibrate) navigator.vibrate([100, 50, 100]); 
+    
+  } else if (type === 'finish') {
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+    osc.frequency.setValueAtTime(554, audioCtx.currentTime + 0.1);
+    osc.frequency.setValueAtTime(659, audioCtx.currentTime + 0.2);
+    gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.5);
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400]); 
+  }
+}
+
 let score1 = localStorage.getItem("score1") ? parseInt(localStorage.getItem("score1")) : 0;
 let score2 = localStorage.getItem("score2") ? parseInt(localStorage.getItem("score2")) : 0;
+let frames1 = localStorage.getItem("frames1") ? parseInt(localStorage.getItem("frames1")) : 0;
+let frames2 = localStorage.getItem("frames2") ? parseInt(localStorage.getItem("frames2")) : 0;
 let currentPlayer = localStorage.getItem("player") ? parseInt(localStorage.getItem("player")) : 1;
+let log1 = localStorage.getItem("log1") ? JSON.parse(localStorage.getItem("log1")) : [];
+let log2 = localStorage.getItem("log2") ? JSON.parse(localStorage.getItem("log2")) : [];
+let secondsElapsed = localStorage.getItem("timer") ? parseInt(localStorage.getItem("timer")) : 0;
 
 let history = [];
+let timerInterval = null;
+let isTimerRunning = false;
 
+function startTimer() {
+  if (isTimerRunning) return; 
+  isTimerRunning = true;
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    secondsElapsed++;
+    localStorage.setItem("timer", secondsElapsed);
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function stopTimer() {
+  isTimerRunning = false;
+  clearInterval(timerInterval);
+}
+
+function updateTimerDisplay() {
+  let m = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+  let s = (secondsElapsed % 60).toString().padStart(2, '0');
+  document.getElementById('timerDisplay').innerText = `${m}:${s}`;
+}
+
+if (score1 > 0 || score2 > 0 || secondsElapsed > 0) {
+  startTimer();
+}
+
+updateTimerDisplay();
 updateUI();
 
 function save() {
   localStorage.setItem("score1", score1);
   localStorage.setItem("score2", score2);
+  localStorage.setItem("frames1", frames1);
+  localStorage.setItem("frames2", frames2);
   localStorage.setItem("player", currentPlayer);
+  localStorage.setItem("log1", JSON.stringify(log1));
+  localStorage.setItem("log2", JSON.stringify(log2));
 }
 
 function updateUI() {
   document.getElementById("score1").innerText = score1;
   document.getElementById("score2").innerText = score2;
+  
+  document.getElementById("side-f1").innerText = "Liam: " + frames1;
+  document.getElementById("side-f2").innerText = "Sharabani: " + frames2;
 
   document.getElementById("p1").classList.remove("active");
   document.getElementById("p2").classList.remove("active");
   document.getElementById("p" + currentPlayer).classList.add("active");
+
+  document.getElementById("log1").innerHTML = log1.join("<br>");
+  document.getElementById("log2").innerHTML = log2.join("<br>");
 }
 
 function saveHistory() {
-  history.push({score1, score2});
+  history.push({
+    score1, score2, frames1, frames2, currentPlayer,
+    log1: [...log1], log2: [...log2], secondsElapsed
+  });
+}
+
+function addLog(player, text) {
+  if (player === 1) {
+    log1.push(text);
+    if (log1.length > 3) log1.shift(); 
+  } else {
+    log2.push(text);
+    if (log2.length > 3) log2.shift();
+  }
 }
 
 function setPlayer(player) {
@@ -205,17 +403,55 @@ function setPlayer(player) {
 }
 
 function addPoints(points) {
+  startTimer(); 
+  playSound('hit');
   saveHistory();
-  if (currentPlayer === 1) score1 += points;
-  else score2 += points;
+  if (currentPlayer === 1) {
+    score1 += points;
+    addLog(1, "+" + points);
+  } else {
+    score2 += points;
+    addLog(2, "+" + points);
+  }
   save();
   updateUI();
 }
 
 function foul() {
+  startTimer(); 
+  playSound('foul');
   saveHistory();
-  if (currentPlayer === 1) score2 += 4;
-  else score1 += 4;
+  if (currentPlayer === 1) {
+    score2 += 4; 
+    addLog(2, "+4 Foul");
+    currentPlayer = 2; 
+  } else {
+    score1 += 4;
+    addLog(1, "+4 Foul");
+    currentPlayer = 1; 
+  }
+  save();
+  updateUI();
+}
+
+function finishFrame() {
+  if (score1 === score2) {
+    alert("Draw! Someone must lead to finish the frame.");
+    return;
+  }
+  playSound('finish');
+  saveHistory();
+  if (score1 > score2) frames1++;
+  else frames2++;
+  
+  stopTimer(); 
+  score1 = 0;
+  score2 = 0;
+  log1 = [];
+  log2 = [];
+  secondsElapsed = 0; 
+  localStorage.setItem("timer", 0);
+  updateTimerDisplay();
   save();
   updateUI();
 }
@@ -225,14 +461,37 @@ function undo() {
   const last = history.pop();
   score1 = last.score1;
   score2 = last.score2;
+  frames1 = last.frames1;
+  frames2 = last.frames2;
+  currentPlayer = last.currentPlayer;
+  log1 = last.log1;
+  log2 = last.log2;
+  secondsElapsed = last.secondsElapsed;
+  localStorage.setItem("timer", secondsElapsed);
+  
+  if (score1 === 0 && score2 === 0) {
+    stopTimer();
+  }
+  
+  updateTimerDisplay();
   save();
   updateUI();
 }
 
 function resetGame() {
+  if(!confirm("Reset everything including frames?")) return;
+  stopTimer(); 
   score1 = 0;
   score2 = 0;
+  frames1 = 0;
+  frames2 = 0;
+  currentPlayer = 1;
+  log1 = [];
+  log2 = [];
   history = [];
+  secondsElapsed = 0;
+  localStorage.setItem("timer", 0);
+  updateTimerDisplay();
   save();
   updateUI();
 }
