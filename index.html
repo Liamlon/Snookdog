@@ -170,7 +170,7 @@ h1 {
 .side-buttons {
   position: fixed;
   right: 15px;
-  top: 50%; 
+  top: 65%; /* <-- כאן השינוי! הורדתי את התפריט קצת יותר למטה בטלפון */
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -214,7 +214,7 @@ h1 {
 }
 
 /* =========================================
-   חוקים לאייפד לרוחב (מסכים גדולים)
+   חוקים לאייפד לרוחב (מסכים גדולים) - לא נגעתי!
    ========================================= */
 @media (min-width: 768px) and (orientation: landscape) {
   .container {
@@ -273,12 +273,11 @@ h1 {
     font-size: 22px;
   }
 
-  /* כאן התיקון: מוריד את התפריט למטה! */
   .side-buttons {
     right: 25px;
-    top: auto;        /* מבטל את המיקום באמצע */
-    bottom: 30px;     /* מצמיד למטה */
-    transform: none;  /* מבטל את המשיכה למעלה */
+    top: auto;        
+    bottom: 30px;     
+    transform: none;  
   }
   
   .side-buttons button {
