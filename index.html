@@ -150,9 +150,9 @@ h1 {
 .green { background: radial-gradient(circle at 30% 30%, #2ecc71, #27ae60); }
 
 .foul {
-  padding: clamp(8px, 2vh, 12px) 35px; 
-  font-size: 16px; 
-  background: linear-gradient(135deg, #ff7b7b, #ff4747); 
+  padding: clamp(8px, 2vh, 12px) 35px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #ff7b7b, #ff4747);
   color: white;
   border-radius: 25px;
   cursor: pointer;
@@ -165,6 +165,37 @@ h1 {
 
 .foul:active {
   transform: scale(0.95);
+}
+
+.foul-colors {
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 260px;
+  z-index: 10;
+}
+
+.foul-colors.open {
+  display: flex;
+}
+
+.foul-ball {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  color: white;
+  box-shadow: inset -4px -4px 8px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.4);
+}
+
+.fouls-line {
+  color: #ff9b9b;
 }
 
 .side-buttons {
@@ -326,7 +357,17 @@ h1 {
   </div>
 </div>
 
-<button class="foul" onclick="foul()">FOUL</button>
+<button class="foul" onclick="toggleFoulColors()">FOUL</button>
+
+<div id="foulColors" class="foul-colors">
+  <div class="foul-ball red" onclick="foul(4,'Red')">4</div>
+  <div class="foul-ball yellow" onclick="foul(4,'Yellow')">4</div>
+  <div class="foul-ball green" onclick="foul(4,'Green')">4</div>
+  <div class="foul-ball brown" onclick="foul(4,'Brown')">4</div>
+  <div class="foul-ball blue" onclick="foul(5,'Blue')">5</div>
+  <div class="foul-ball pink" onclick="foul(6,'Pink')">6</div>
+  <div class="foul-ball black" onclick="foul(7,'Black')">7</div>
+</div>
 
 </div>
 
@@ -338,6 +379,8 @@ h1 {
   <div class="frames-side">
     <div id="side-f1">Liam: 0</div>
     <div id="side-f2">Sharabani: 0</div>
+    <div id="side-fouls1" class="fouls-line">Liam Fouls: 0</div>
+    <div id="side-fouls2" class="fouls-line">Sharabani Fouls: 0</div>
   </div>
 </div>
 
@@ -390,6 +433,8 @@ let score1 = localStorage.getItem("score1") ? parseInt(localStorage.getItem("sco
 let score2 = localStorage.getItem("score2") ? parseInt(localStorage.getItem("score2")) : 0;
 let frames1 = localStorage.getItem("frames1") ? parseInt(localStorage.getItem("frames1")) : 0;
 let frames2 = localStorage.getItem("frames2") ? parseInt(localStorage.getItem("frames2")) : 0;
+let fouls1 = localStorage.getItem("fouls1") ? parseInt(localStorage.getItem("fouls1")) : 0;
+let fouls2 = localStorage.getItem("fouls2") ? parseInt(localStorage.getItem("fouls2")) : 0;
 let currentPlayer = localStorage.getItem("player") ? parseInt(localStorage.getItem("player")) : 1;
 let log1 = localStorage.getItem("log1") ? JSON.parse(localStorage.getItem("log1")) : [];
 let log2 = localStorage.getItem("log2") ? JSON.parse(localStorage.getItem("log2")) : [];
@@ -433,6 +478,8 @@ function save() {
   localStorage.setItem("score2", score2);
   localStorage.setItem("frames1", frames1);
   localStorage.setItem("frames2", frames2);
+  localStorage.setItem("fouls1", fouls1);
+  localStorage.setItem("fouls2", fouls2);
   localStorage.setItem("player", currentPlayer);
   localStorage.setItem("log1", JSON.stringify(log1));
   localStorage.setItem("log2", JSON.stringify(log2));
@@ -444,6 +491,8 @@ function updateUI() {
   
   document.getElementById("side-f1").innerText = "Liam: " + frames1;
   document.getElementById("side-f2").innerText = "Sharabani: " + frames2;
+  document.getElementById("side-fouls1").innerText = "Liam Fouls: " + fouls1;
+  document.getElementById("side-fouls2").innerText = "Sharabani Fouls: " + fouls2;
 
   document.getElementById("p1").classList.remove("active");
   document.getElementById("p2").classList.remove("active");
@@ -455,7 +504,7 @@ function updateUI() {
 
 function saveHistory() {
   history.push({
-    score1, score2, frames1, frames2, currentPlayer,
+    score1, score2, frames1, frames2, fouls1, fouls2, currentPlayer,
     log1: [...log1], log2: [...log2], secondsElapsed
   });
 }
@@ -491,18 +540,25 @@ function addPoints(points) {
   updateUI();
 }
 
-function foul() {
-  startTimer(); 
+function toggleFoulColors() {
+  document.getElementById("foulColors").classList.toggle("open");
+}
+
+function foul(points, color) {
+  document.getElementById("foulColors").classList.remove("open");
+  startTimer();
   playSound('foul');
   saveHistory();
   if (currentPlayer === 1) {
-    score2 += 4; 
-    addLog(2, "+4 Foul");
-    currentPlayer = 2; 
+    score2 += points;
+    fouls1++;
+    addLog(2, "+" + points + " Foul (" + color + ")");
+    currentPlayer = 2;
   } else {
-    score1 += 4;
-    addLog(1, "+4 Foul");
-    currentPlayer = 1; 
+    score1 += points;
+    fouls2++;
+    addLog(1, "+" + points + " Foul (" + color + ")");
+    currentPlayer = 1;
   }
   save();
   updateUI();
@@ -518,12 +574,14 @@ function finishFrame() {
   if (score1 > score2) frames1++;
   else frames2++;
   
-  stopTimer(); 
+  stopTimer();
   score1 = 0;
   score2 = 0;
+  fouls1 = 0;
+  fouls2 = 0;
   log1 = [];
   log2 = [];
-  secondsElapsed = 0; 
+  secondsElapsed = 0;
   localStorage.setItem("timer", 0);
   updateTimerDisplay();
   save();
@@ -537,6 +595,8 @@ function undo() {
   score2 = last.score2;
   frames1 = last.frames1;
   frames2 = last.frames2;
+  fouls1 = last.fouls1 ?? fouls1;
+  fouls2 = last.fouls2 ?? fouls2;
   currentPlayer = last.currentPlayer;
   log1 = last.log1;
   log2 = last.log2;
@@ -559,6 +619,8 @@ function resetGame() {
   score2 = 0;
   frames1 = 0;
   frames2 = 0;
+  fouls1 = 0;
+  fouls2 = 0;
   currentPlayer = 1;
   log1 = [];
   log2 = [];
